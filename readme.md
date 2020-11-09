@@ -1,114 +1,103 @@
-# py-parser
+# TF_IDF
 
-Python Implementation of Term Frequency Inverse Document Frequency using the NLTK library.
+Python Implementation of [Term Frequency Inverse Document Frequency](https://en.wikipedia.org/wiki/Tf%E2%80%93idf) using the NLTK library.
 
-## Preparation Steps:
+Given a Corpus from the NLTK library, computes the TF_IDF value between every pair of documents. 
+
+Allows various options to customize the values reported.
+
+## Built With
+
++ Python 3
++ [NLTK](https://www.nltk.org/)
++ [Scipy](https://www.scipy.org/)
+
+# Preparation Steps:
 
 ## Installing Python 3
-Run this command in terminal and verify the python being used is not Python 2:
-    ```
-    python --version
-    ```
-If this command returns Python 2 attempt to run
+Run this command to verify Python 3 is installed
     ```
     python3 --version
     ```    
 If Python 3 is not installed follow these instructions to install
 
-### Ubuntu
+## Ubuntu
 ```
 sudo apt update
 sudo apt install python3
 ```
 
-### OSX / 11
+## OSX / 11
 ```
 brew install python3
 ```
 
-### Windows
+## Windows
 Download [here](https://www.python.org/downloads/) and follow install instructions.
-       
-    
-1. Test that application is running: Assuming the project we
-```shell script
-curl --request GET --url http://localhost:5000
+
+## Installing NLTK
+NLTK performs much of the heavy lifing of this application. It contains the various corpus that are used for training as well as the Stemmers.
+
+Run the following commands to install NLTK:
+```
+pip3 install nltk
+python3
+import nltk
+nltk.download()
+```
+A GUI should appear. Click to download all data.
+
+## Installing Scipy
+Scipy is used for performing various mathematical computations.
+```
+pip3 install scipy
 ```
 
-6. Run Sample Demo Project/Test Bed
+# Example
+While you can use CorpusReader_TFIDF youself, I have also bundled an example runner to show how to use the class.
 
-First clone the Test Bed Project:
-```shell script
-  git clone https://github.com/clintonyeb/django-microservices
+In order to run the example:
+```
+python3 generator.py
 ```
 
-You can test the various interfaces for this project as following:
+The example program calculates and prints the TF_IDF of the Brown corpus, then the Shakespearean texts, then the state of the union.
 
+# CorpusReader_TFIDF
 
-i. Parse A Python project as System, Apps, Modules, etc..: Available at the `parse` endpoint
+## Constructor
 
-```shell script
-  curl --request POST \
-  --url http://localhost:5000/parse \
-  --header 'content-type: application/json' \
-  --data '{
-	"fileName": "/home/clint/Projects/cloudhubs/django-microservices"
-}	'
+      corpus: the corpus that documents will be grabbed from
+      tf: indicating how the term frequency will be calculated
+          raw -- indicates that the raw score will be used
+          log -- indicates that the score will be log normalized
+          binary -- indicates that the score will be binary in output
+              1 indicates that the term is present in the document
+              0 indicates that the term is not present in the document
+      idf: indicates how the inverse document frequency will be calculated
+          base: simply the default
+          smooth: the frequency is smoothed
+          prob: probabilistic inverse document frequency
+      stopword: what the stopwords will be
+          standard -- use the default English stopwords
+          anything else -- a fileName to read the stopwords from
+      stemmer: the stemmer for the words
+          Porter or Snowball allowed
+      ignorecase: indicates if case should be ignored
+          no -- do not ignore case
+          yes -- do ignore case
+
+## Example
+
+TF_IDF of Brown Corpus log normalized, smoothed, standard stop words, porter stemmer, and ignores case.
 ```
-
-This will generate the various nodes of the project.
-
-#### Response Sample:
-
-A JSON sample response is included in the `docs` folder: `docs/parser.json`
-
-![Parser Endpoint](docs/parser.png)
-
-
-
-ii. Parse A Python project for various end points and rest calls: Available at the `interface` endpoint
-
-```shell script
-  curl --request POST \
-  --url http://localhost:5000/interface \
-  --header 'content-type: application/json' \
-  --data '{
-	"fileName": "/home/clint/Projects/cloudhubs/django-microservices"
-}	'
+CorpusReader_TFIDF("Brown", "log", "smooth", "standard","Porter", "yes")
 ```
+# Author
++ [Ian Laird](https://github.com/i-laird)
 
-This will generate the various end points and exit points of the project.
+# Other Cool Stuff
+If you like this project be sure to check out my other NLTK projects! The sentiment analyzer actually uses this project as a subroutine!
 
-NB: `Exit Point`: refers to Rest Calls from a project to another.
-`End Point` refers to the various end points of a project available to be called from other projects.
-
-#### Response Sample:
-
-A JSON sample response is included in the `docs` folder: `docs/interface.json`
-
-![Interface Endpoint](docs/interface.png)
-
-
-
-iii. Generate `MsModel` Data Structure
-
-The logic to reconstruct the PyParser data into MsModel structure is contained in `prophet-utils` module.
-
-It also has a rest interface at the `prophet` module.
-
-You have to clone and setup the [CloudHubs Prophet Module](https://github.com/cloudhubs/prophet). Check its README for instructions on how to setup.
-
-Now you can generate the MsModel data structure at the following endpoint: ``:
-
-Example: 
-
-```shell script
-  curl --request POST \
-  --url http://localhost:8080/py/interface \
-  --header 'content-type: application/json' \
-  --data '{
-	"fileName": "/home/clint/Projects/cloudhubs/django-microservices"
-}	'
-```
-
-#### Response Sample:
++ [Spell Checker](https://github.com/i-laird/Spell_Checker)
++ [Document Sentiment Analyzer](https://github.com/i-laird/Sentiment_Analyzer)
